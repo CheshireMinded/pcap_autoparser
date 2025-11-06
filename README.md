@@ -1,4 +1,4 @@
-# PCAP Triage
+# PCAP AutoParser
 
 Triage → Enrich → Detect → Deep Scan → Store → Report.
 
