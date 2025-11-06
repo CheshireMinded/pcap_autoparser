@@ -1,0 +1,85 @@
+{
+  "title": "PCAP Triage Overview",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Packets over time (1m)",
+      "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "targets": [
+        {
+          "format": "table",
+          "refId": "A",
+          "rawQuery": true,
+          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:00Z', datetime(ts, 'unixepoch')) AS t, COUNT(*) AS packets\nFROM packets\nGROUP BY t\nORDER BY t"
+        }
+      ],
+      "options": { "legend": { "showLegend": true } }
+    },
+    {
+      "type": "bargauge",
+      "title": "Top talkers by bytes (src)",
+      "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+      "targets": [
+        {
+          "refId": "A",
+          "rawQuery": true,
+          "queryText": "SELECT src AS label, SUM(len_bytes) AS value\nFROM packets\nGROUP BY src\nORDER BY value DESC\nLIMIT 10"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Latest detections",
+      "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+      "options": { "showHeader": true },
+      "targets": [
+        {
+          "refId": "A",
+          "rawQuery": true,
+          "queryText": "SELECT datetime(rowid, 'unixepoch') AS approx_time, pcap, category, message, context_json\nFROM detections\nORDER BY id DESC\nLIMIT 200"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Uncommon high ports",
+      "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+      "targets": [
+        {
+          "refId": "A",
+          "rawQuery": true,
+          "queryText": "SELECT dport, COUNT(*) AS packets\nFROM packets\nWHERE dport > 49151\nGROUP BY dport\nORDER BY packets DESC\nLIMIT 20"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Top flows (packets)",
+      "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+      "targets": [
+        {
+          "refId": "A",
+          "rawQuery": true,
+          "queryText": "SELECT src, sport, dst, dport, proto, COUNT(*) AS packets, SUM(len_bytes) AS bytes\nFROM packets\nGROUP BY src, sport, dst, dport, proto\nORDER BY packets DESC\nLIMIT 50"
+        }
+      ]
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "pcap",
+        "type": "query",
+        "datasource": { "type": "frser-sqlite-datasource", "uid": "PCAP_SQLITE_UID" },
+        "query": "SELECT DISTINCT pcap FROM packets ORDER BY pcap DESC",
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  }
+}

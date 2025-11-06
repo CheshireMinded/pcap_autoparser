@@ -1,0 +1,24 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# SQL files
+*.sql text eol=lf
+
+# YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# Binary files
+*.pcap binary
+*.pcapng binary
+*.mmdb binary
+*.sqlite binary

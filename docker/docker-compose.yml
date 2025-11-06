@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports: ["3000:3000"]
+    volumes:
+      - ./pcap_out:/var/lib/pcaptriage
+      - ./dashboards:/dashboards
+    environment:
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+      - GF_PATHS_PROVISIONING=/provisioning
+    volumes:
+      - ./grafana-provisioning:/provisioning

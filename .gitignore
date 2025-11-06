@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Database files
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.db
+
+# Output directories (generated files)
+pcap_out/
+reports/
+samples/results/
+
+# Data files (user downloads, GeoIP databases, etc.)
+data/
+*.mmdb
+*.mmdb.download
+
+# Environment variables
+.env
+.env.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Keep directory structure but ignore contents
+!samples/.gitkeep
+!data/.gitkeep
+!reports/.gitkeep
+!pcap_out/.gitkeep
+

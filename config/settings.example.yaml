@@ -1,0 +1,26 @@
+# Renaming to settings.yaml is optional — flags/env take precedence.
+paths:
+  outdir: pcap_out
+  reports: reports
+  db: pcap_out/pcaps.sqlite
+  geoip_city: data/mmdb/GeoLite2-City.mmdb
+  geoip_asn:  data/mmdb/GeoLite2-ASN.mmdb
+
+profile: noc          # default | noc
+deep_scan: true       # enable tshark targets for flagged flows
+ja4: false            # require tshark fields support to use
+processes: 4          # workers for directory mode
+cir_mbps: 100         # for microburst detector reference
+
+heuristics:
+  sensitive_ports: [22,23,25,53,80,110,111,135,139,143,389,445,465,587,993,995,1433,1521,2049,2375,27017,3306,3389,5432,5900,6379,8080,9200]
+  rare_highport: 60000
+  scan_ports_threshold: 20
+  scan_hosts_threshold: 20
+  beacon_min_pkts: 8
+  beacon_jitter_max: 0.15
+  microburst_bucket_ms: 10
+  volume_spike_bytes: 50000000    # 50 MB
+  dns_long_label: 40
+  dns_nxdomain_rate: 0.5
+  icmp_flood_pps: 500
